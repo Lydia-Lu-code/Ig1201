@@ -1,6 +1,6 @@
 //
 //  CustomTabBarController.swift
-//  I﻿﻿g﻿1﻿0﻿3﻿1
+
 //
 //  Created by 維衣 on 2023/11/2.
 //
@@ -52,11 +52,17 @@ class CustomTabBarController: UITabBarController, UITabBarControllerDelegate {
 //            exploreViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "magnifyingglass"),tag: 1)
 //            viewControllers.append(exploreViewController)
 //        }
-
-        if let cameraViewController = storyboard?.instantiateViewController(withIdentifier: "CameraViewController") {
+        
+        if let cameraViewController = storyboard?.instantiateViewController(withIdentifier: "CameraViewController") as? CameraViewController {
             cameraViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus"), tag: 2)
             viewControllers.append(cameraViewController)
         }
+
+
+//        if let cameraViewController = storyboard?.instantiateViewController(withIdentifier: "CameraViewController") {
+//            cameraViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus"), tag: 2)
+//            viewControllers.append(cameraViewController)
+//        }
         
         if let notificationsViewController = storyboard?.instantiateViewController(withIdentifier: "NotificationsViewController") {
             notificationsViewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), tag: 3)

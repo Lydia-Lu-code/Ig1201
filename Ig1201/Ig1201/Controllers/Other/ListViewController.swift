@@ -9,15 +9,17 @@ import UIKit
 
 class ListViewController: UIViewController {
 
-    private let data: [String]
-    
+    private let data: [UserReletionship]
+        
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UserFollowTableViewCell.self, forCellReuseIdentifier: UserFollowTableViewCell.identifier)
         return tableView
     }()
     
-    init(data: [String]) {
+    // MARK: - Init
+    
+    init(data: [UserReletionship]) {
         self.data = data
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,7 +53,8 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserFollowTableViewCell.identifier, for: indexPath) as! UserFollowTableViewCell
-        cell.configure(with: "")
+        cell.configure(with: data[indexPath.row])
+        cell.delegate = self
 //        cell.textLabel?.text = data[indexPath.row]
         return cell
     }
@@ -60,5 +63,23 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         // Go to profile of selected cell
         let model = data[indexPath.row]
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+    
+}
+
+extension ListViewController: UserFollowTableViewCellDelegate {
+    func didTapFollowUnfollowButton(model: UserReletionship) {
+        switch model.type {
+        case .follewing:
+            // perform firebase update to unfollow
+            break
+        case .not_followig:
+            // perform firbase update to follow
+            break
+        }
     }
 }

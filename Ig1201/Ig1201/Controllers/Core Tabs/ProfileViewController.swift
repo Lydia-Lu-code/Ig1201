@@ -13,6 +13,8 @@ final class ProfileViewController: UIViewController {
     
     private var collectionView: UICollectionView?
     
+    private var userPost = [UserPost]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +25,7 @@ final class ProfileViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: 1)
         let size = (view.width - 4)/3
         layout.itemSize = CGSize(width: size, height: size)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -31,6 +33,8 @@ final class ProfileViewController: UIViewController {
         
         // cell
         collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        
+        // Header
         collectionView?.register(ProfileInfoHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileInfoHeaderCollectionReusableView.identifier)
         collectionView?.register(ProfileTabsCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileTabsCollectionReusableView.identifier)
         
@@ -74,17 +78,27 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         if section == 0 {
          return 0
         }
+        // return userPost.conut
         return 30
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // let model = userPosts(indexPath.row)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as! PhotoCollectionViewCell
+        // cell.configure(with: model)
         cell.backgroundColor = .systemBlue
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        // get the model and open post controller
+//         let model = userPost[indexPath.row]
+//        let vc = PostViewController()
+//        vc.title = "Post"
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -129,14 +143,22 @@ extension ProfileViewController: ProfileInfoHeaderCollectionReusableViewDelegate
     }
     
     func profileHeaderDidTapFollowersButton(_ header: ProfileInfoHeaderCollectionReusableView) {
-        let vc = ListViewController(data: ["Lydia", "Lydia", "Lydia", "Lydia",])
+        var mockData = [UserReletionship]()
+        for x in 0..<10 {
+            mockData.append(UserReletionship(username: "@Lydia", name: "Lydia_", type: x % 2 == 0 ? .follewing : .not_followig))
+        }
+        let vc = ListViewController(data: mockData)
         vc.title = "Followers"
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func profileHeaderDidTapFollowingButton(_ header: ProfileInfoHeaderCollectionReusableView) {
-        let vc = ListViewController(data: ["Lydia", "Lydia", "Lydia", "Lydia",])
+        var mockData = [UserReletionship]()
+        for x in 0..<10 {
+            mockData.append(UserReletionship(username: "@Lydia", name: "Lydia Lu", type: x % 2 == 0 ? .follewing : .not_followig))
+        }
+        let vc = ListViewController(data: mockData)
         vc.title = "Following"
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
